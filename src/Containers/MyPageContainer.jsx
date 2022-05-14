@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 import readerNameContext from '../Contexts/readerNameContext.js';
 import readerIDContext from '../Contexts/readerIDContext.js';
+import { Link } from 'react-router-dom';
 
 const MyPageContainer = (props) => {
     const { readerName } = useContext(readerNameContext);
@@ -27,8 +28,14 @@ const MyPageContainer = (props) => {
     const books = [];
 
     for (let i = 0; i < bookList.length; i++) {
+        const { book_title } = bookList[i]
         books.push(
-            <h1>{bookList[i].book_title}</h1>
+            <div>
+                <Link to={'/book/' + book_title.split(' ').join('-')}>
+                    {book_title}
+                </Link>
+            </div>
+            
         )
     }
 

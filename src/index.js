@@ -2,10 +2,12 @@ import { render } from 'react-dom';
 import React from 'react';
 import App from './App.jsx';
 import { BrowserRouter } from 'react-router-dom';
+import ReactDOM from 'react-dom/client';
 
-render(
-    <BrowserRouter>
+const root = ReactDOM.createRoot(document.getElementById('root'));
+
+root.render(
+    <React.StrictMode>
         <App />
-    </BrowserRouter>,
-    document.getElementById('root')
-)
+    </React.StrictMode>
+);

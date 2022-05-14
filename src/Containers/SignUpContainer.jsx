@@ -1,23 +1,24 @@
-//ADD IN IMPORTS
 import React, { useEffect, useState, useContext } from 'react';
 import readerNameContext from '../Contexts/readerNameContext.js';
 import readerIDContext from '../Contexts/readerIDContext.js';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom'
 
 
-const LoginContainer = (props) => {
+const SignUpContainer = (props) => {
     const [usernameInput, setUsernameInput] = useState('');
     const [passwordInput, setPasswordInput] = useState('');
+    const [emailInput, setEmailInput] = useState('');
     const { reader_id, setReader_ID } = useContext(readerIDContext)
     const { readerName, setReaderName } = useContext(readerNameContext)
 
-    const login = (e) => {
+    const signUp = (e) => {
         e.preventDefault();
         const body = {
             username: usernameInput,
-            password: passwordInput
+            password: passwordInput,
+            email: emailInput
         };
-        fetch('http://localhost:3000/login', {
+        fetch('http://localhost:3000/signUp', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -30,10 +31,10 @@ const LoginContainer = (props) => {
                     setReader_ID(result);
                     setReaderName(usernameInput);
                 }
-                else alert('Username or password invalid. Please try again.')
+                else alert('Username already in use. Please try again.')
             })
             .catch((err) => {
-                alert('Username or password invalid. Please try again.')
+                alert('Username already in use. Please try again.')
                 setUsernameInput('')
                 setPasswordInput('')
             })
@@ -41,55 +42,45 @@ const LoginContainer = (props) => {
 
     const handleUsernameChange = e => setUsernameInput(e.target.value);
     const handlePasswordChange = e => setPasswordInput(e.target.value);
+    const handleEmailChange = e => setEmailInput(e.target.value);
 
     return (
         <div>
-            <h1>book/nook</h1>
-
             <input
                 id='usernameInput'
-                className='form-control'
                 placeholder='Username'
                 value={usernameInput}
                 onChange={handleUsernameChange}
-            ></input>
+            >
+            </input>
 
             <input
                 id='passwordInput'
-                placeholder='Password'
                 type='password'
+                placeholder='Password'
                 value={passwordInput}
                 onChange={handlePasswordChange}
-            ></input>
+            >
+            </input>
 
+            <input
+                id='emailInput'
+                placeholder='Email Address'
+                value={emailInput}
+                onChange={handleEmailChange}
+            >
+            </input>
 
             <button
                 type='submit'
-                id='loginButton'
-                onClick={login}
-            >Log In
+                onClick={signUp}
+            >
+                Submit
             </button>
 
-            <Link to='/signUp'>
-                <button>
-                    Sign Up
-                </button>
-            </Link> 
-
-            <div>
-                <h3>Reader ID: {reader_id}</h3>
-            </div>
-            <div>
-                <h3>{readerName}</h3>
-            </div>
-            <Link to='/'>
-                <button>
-                    Home
-                </button>
-            </Link>
         </div>
     )
 }
 
 
-export default LoginContainer
+export default SignUpContainer;
